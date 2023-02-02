@@ -163,13 +163,17 @@ fi
 dateconvert () {
 	if [ $# -eq 1 ] ; then 
 		a=$(echo $1 | cut -c 1-10 | sed 's/-//g')
-		if [ ! $a -ge 20100101 ] || [ ! $a -le 20300101 ] ; then 
-			exit 25
+		if [[ ! $a =~ [0-9]+ ]]; then 
+			if [ ! $a -ge 20100101 ] || [ ! $a -le 20300101 ] ; then 
+				exit 25
+			fi
+			echo $a
+			return 0
+		else 
+			exit 26
 		fi
-		echo $a
-		return 0
-	else 
-		exit 26
+		else
+			echo 0
 	fi
 }
 
@@ -180,13 +184,16 @@ cat $1 | head -n50 | cut -d ';' -f2 > date.txt
 	i=2
 	min=`dateconvert $min`
 	max=`dateconvert $max`
-	while read line; do
-		f=`dateconvert $line`
-		if [ $f -ge $min ] && [ $f -le $max ] ; then
-			sed -n ''$i'p' $1 >> $2
-		fi
-	i=$(($i+1))
-	done < "$date"
+	echo $min
+	echo $max
+	exit 40
+		while read line; do
+			f=`dateconvert $line`
+			if [ $f -ge $min ] && [ $f -le $max ] ; then
+				sed -n ''$i'p' $1 >> $2
+			fi
+		i=$(($i+1))
+		done < "$date"
 }
 
 >meteo3.csv 
@@ -210,7 +217,7 @@ i=0;
 for i in $(seq 1 "$#"); do
   case "${!i}" in 
     '-h') echo "h" > height.txt;
-	 	cat meteo3.csv | head -n50 | cut -d ';' -f1,2,10,14 >> height.txt
+	 	cat meteo3.csv | head -n50 | cut -d ';' -f1,10,14 >> height.txt
       ;;
     '-t1') echo "t1" > temp1.txt
 		cat meteo3.csv | head -n50 | cut -d ';' -f1,11,12,13 >> temp1.txt
@@ -239,4 +246,3 @@ for i in $(seq 1 "$#"); do
     *);;
   esac
 done ;
-
