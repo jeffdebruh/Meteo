@@ -2,18 +2,18 @@
 
 #include "height.h"
 typedef struct dtsr{
-	float val;            // Valeur a trier
-	float Num;            //Valeur a sortir
-	int den;            //denominateur Moyenne
+	float val;            
+	float Num;            
+	int den;            
 	
 
-	float rest[3];  //autre valeur a sortir
+	float rest[3];  
 	
 
 }Data;
 
 
-
+//Functions Explained in Sort.c only changes are 'greater than' comparator becoming 'Equal or greater than' in sorting fonctions: 'insert' 'insertAVL' and 'putInTabRec'
 
 
 
