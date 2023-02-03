@@ -1,7 +1,7 @@
 
 
 #include "wind.h"
-
+#include "Sort.c"
 
 
 Data takeDat(FILE* f){
@@ -13,27 +13,13 @@ Data takeDat(FILE* f){
 	while (i!=1 && getc(f)!=EOF){
 		fseek(f,-1,SEEK_CUR);
 
-		if(!noNum(f)){			// take date/station
+		if(!noNum(f)){			// station
 			i=restart(f);
 		}
 		else{
-			fscanf(f, "%li", &res.val);
+			fscanf(f, "%f", &res.val);
 			i=1;
 			skip(f);
-		}
-		if(i!=2){              // take coords
-			
-			if (!noNum(f)){
-				i=restart(f);
-			}
-			else
-			{
-				fscanf(f, "%f", &res.rest[1]);
-				skipcoord(f);
-				fscanf(f, "%f", &res.rest[2]);
-				i=1;
-				skip(f);
-			}
 		}
 			
 		
@@ -63,14 +49,26 @@ Data takeDat(FILE* f){
 			}
 			
 		}
+		if(i!=2){              // take coords
+			
+			if (!noNum(f)){
+				i=restart(f);
+			}
+			else
+			{
+				fscanf(f, "%f", &res.rest[1]);
+				skipcoord(f);
+				fscanf(f, "%f", &res.rest[2]);
+				i=1;
+				skip(f);
+			}
+		}
 		
 	}
 	
 	res.Num= v*cosf(d); //x axis
 	res.rest[0]= v*sinf(d); //y axis
 	res.den=1;
-	printf("val: %li \n", res.val);
-	printf("Num: %f \n", res.Num);
 	return res;
 
 	//
@@ -81,10 +79,16 @@ Data takeDat(FILE* f){
 
 
 void WriteThatDown(Data z, FILE *file){
-	int x= z.Num/z.den;
-	int y= z.rest[0]/z.den;
+	float x= z.Num/z.den;
+	float y= z.rest[0]/z.den;
+	float e=atanf(y/x);;
+	float s=sqrtf((x*x)+(y*y));
+	if (isnanf(e))
+		e=0;
+	if (isnanf(s))
+		s=0;
 	
-	fprintf(file,"%f;%f;%f,%f;\n", sqrt((x*x)+(y*y)) , atanf(y/x), z.rest[1], z.rest[2]);
+	fprintf(file,"%f;%f;%f;%f;%f;\n", z.val, s, e, z.rest[1], z.rest[2]);
 }
 
 

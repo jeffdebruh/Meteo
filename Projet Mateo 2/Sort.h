@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 typedef struct dtsr{
-	long val;            // Valeur a trier
+	float val;            // Valeur a trier
 	float Num;            //Valeur a sortir
 	int den;            //denominateur Moyenne
 	

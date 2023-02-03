@@ -68,6 +68,18 @@ int main(int argc, char** argv) {
 				reverse=1;
 				puts("sorting reversed!");
 				break;
+			case 4:
+				
+				puts("sorting mode: avl");
+				break;
+			case 5:
+				sort=1;
+				puts("sorting mode: bst");
+				break;
+			case 6:
+				sort=2;
+				puts("sorting mode: tab");
+				break;
 			case 7:
 				mode=1;
 				puts("sorting height");
@@ -130,17 +142,18 @@ int main(int argc, char** argv) {
 	switch(mode) {
 		case 1:
 			puts("height");
-			sortH(mode, 70, fptr,fout,reverse);
+			sortH(sort, 70, fptr,fout,reverse);
 
 			break;
 		case 2:
 			puts("moist");
-			sortM(mode, 70, fptr,fout,reverse);
+			sortM(sort, 70, fptr,fout,reverse);
+			sortM2(sort, 70, fptr,fout,reverse);
 
 			break;
 		case 3:
 			puts("wind");
-			sortW(mode, 70, fptr,fout,reverse);
+			sortW(sort, 70, fptr,fout,reverse);
 
 			break;
 		case 4:
@@ -171,7 +184,7 @@ int main(int argc, char** argv) {
 
 
 
-
+	puts("sorting finished");
 
  	fclose(fptr);
     fclose(fout);

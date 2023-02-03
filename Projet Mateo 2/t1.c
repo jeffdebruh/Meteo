@@ -3,7 +3,9 @@
 #include "t1.h"
 
 
+
 Data takeDat(FILE* f){
+
 	Data res;
 	int i=0;             // 1= data taken with success, 2=Skipline and restart.
 
@@ -16,7 +18,7 @@ Data takeDat(FILE* f){
 			i=restart(f);
 		}
 		else{
-			fscanf(f, "%li", &res.val);
+			fscanf(f, "%f", &res.val);
 			i=1;
 			skip(f);
 		}
@@ -68,8 +70,7 @@ Data takeDat(FILE* f){
 
 
 void WriteThatDown(Data x, FILE *file){
-	
-	fprintf(file,"%li;%f;%f;%f\n", x.val, (x.Num/x.den), x.rest[0],x.rest[1]);
+	fprintf(file,"%f;%f;%f;%f\n", x.val, (x.Num/x.den), x.rest[0],x.rest[1]);
 }
 
 

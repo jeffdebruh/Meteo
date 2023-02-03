@@ -16,10 +16,12 @@ wind.o: wind.c wind.h
 	gcc -c wind.c -o wind.o -lm
 moist.o: moist.c moist.h
 	gcc -c moist.c -o moist.o -lm
+moist2.o: moist2.c moist2.h
+	gcc -c moist2.c -o moist2.o -lm
 main.o: main.c main.h
 	gcc -c main.c -o main.o -lm
-weather: main.o t1.o p1.o tp2.o tp3.o height.o wind.o moist.o Sort.o
-	gcc main.o t1.o p1.o tp2.o tp3.o height.o wind.o moist.o Sort.o -o weather -lm
+weather: main.o t1.o p1.o tp2.o tp3.o height.o wind.o moist.o Sort.o moist2.o 
+	gcc main.o t1.o p1.o tp2.o tp3.o height.o wind.o moist.o moist2.o Sort.o -o weather -lm
 
 clean: 
 	rm -f *.o

@@ -1,18 +1,19 @@
-#include "tp3.h"
+#include "moist2.h"
 
 
-
-
-typedef struct dt{
-	long val;            // Valeur a trier
+typedef struct dtsr{
+	float val;            // Valeur a trier
 	float Num;            //Valeur a sortir
 	int den;            //denominateur Moyenne
 	
 
-	float rest[5];  //autre valeur a sortir
+	float rest[3];  //autre valeur a sortir
 	
 
 }Data;
+
+
+
 
 
 
@@ -37,6 +38,14 @@ int restart(FILE *f){
 	return 2;
 }
 
+void skipcoord(FILE *f){
+	char c;
+	int i=0;
+	
+	while(c=getc(f), c!=',' && i<20) {i++;}
+	
+}
+
 void skip(FILE *f){
 	char c;
 	int i=0;
@@ -47,14 +56,11 @@ void skip(FILE *f){
 
 
 
-
 Data takeDat(FILE* file);
 
 void WriteThatDown(Data x, FILE *file);
 
-Data Equal(Data x, Data y){
-	return x;
-	}
+Data Equal(Data x, Data y);
 
 
 
@@ -64,6 +70,9 @@ Data Equal(Data x, Data y){
 
 
 //========================== TAB SORT=================================
+
+
+
 
 void put(Data tab[], long t, Data a, long* size){
 	for(int i=*size; i>=t;i--)
@@ -78,14 +87,11 @@ void put(Data tab[], long t, Data a, long* size){
 
 Data* putInTabRec(Data phead[], Data a, long start, long end, long* size){
 		long mid=(start+end)/2;
-		
-		
-		
-		if(phead[start].val>a.val || (phead[start].val==a.val && phead[start].Num>a.Num)){
+		if(phead[start].val>a.val){
 			put(phead, start, a, size);
 			return phead;
 		}
-		if(phead[start].val<a.val || (phead[start].val==a.val && phead[start].Num<a.Num)){
+		if(phead[start].val<a.val){
 			if(phead[start+1].val>a.val){
 
 				put(phead, start+1, a, size);
@@ -94,22 +100,14 @@ Data* putInTabRec(Data phead[], Data a, long start, long end, long* size){
 		}
 				
 			
-		if(phead[end].val<a.val || (phead[end].val==a.val && phead[end].Num<a.Num)){
+		if(phead[end].val<=a.val){
 			put(phead, end+1, a, size);
 			return phead;
 		}
-		if(phead[start].val==a.val || (phead[start].val==a.val && phead[start].Num==a.Num)){
-			phead[start]=Equal(phead[start],a);
-			return phead;
-			}
-		if(phead[end].val==a.val || (phead[end].val==a.val && phead[end].Num==a.Num)){
-			phead[end]=Equal(phead[end],a);
-			return phead;
-			}
-		if(phead[mid].val>a.val || (phead[mid].val==a.val && phead[mid].Num>a.Num)){
+		if(phead[mid].val>a.val){
 			return putInTabRec(phead, a, start, mid, size);
 		}
-		if(phead[mid].val<a.val || (phead[mid].val==a.val && phead[mid].Num<a.Num)){	
+		if(phead[mid].val<a.val){	
 			return putInTabRec(phead, a, mid, end, size);
 		}
 		else{
@@ -131,6 +129,8 @@ Data* putInTab (Data phead[], Data a, long* size){
 		
 	return putInTabRec(phead, a, 0, *(size)-1, size);
 }
+
+
 
 
 //========================== AVL ==================================
@@ -163,8 +163,6 @@ typedef struct AVL{
 
 }AVLNode;
 
-
-
 int isEmptyAVL(AVLNode* pTree){
 	return (pTree==NULL);
 }
@@ -190,7 +188,7 @@ int hasRightChildAVL(AVLNode* pTree){
 AVLNode* createAVL(Data val){
 	AVLNode* pTree = malloc(sizeof(AVLNode));
 	if(pTree == NULL){
-		exit(4);
+		exit(1);
 	}
 	pTree->value = val;
 	pTree->pleft = NULL;
@@ -198,6 +196,8 @@ AVLNode* createAVL(Data val){
     pTree->eq=0;
 	return pTree;
 }
+
+
 
 
 AVLNode* rotateRight(AVLNode* a){
@@ -265,7 +265,7 @@ AVLNode* insertAVL(AVLNode* a, Data e, int* h){
 		*h=1;
         return createAVL(e);
 	}
-    else if (e.val < a->value.val){
+    else if (e.val <= a->value.val){
         a->pleft=insertAVL(a->pleft,e,h);
         *h=-(*h);
     }
@@ -274,13 +274,9 @@ AVLNode* insertAVL(AVLNode* a, Data e, int* h){
     }
     else
     {
-		if (e.Num < a->value.Num){
-        a->pleft=insertAVL(a->pleft,e,h);
-        *h=-(*h);
-    	}
-    	else if (e.Num > a->value.Num){
-        	a->pright=insertAVL(a->pright, e, h);
-    	}
+		a->value=Equal(a->value, e);
+        *h=0;
+        return a;
     }
     
     if (*h!=0){
@@ -334,8 +330,6 @@ void delLeftAVL(AVLNode* pTree){
 
 }
 
-
-
 //============================= BST ==================================
 
 
@@ -346,7 +340,7 @@ typedef struct Tree{
 
 }TreeNode;
 
-typedef TreeNode PTreeNode;
+
 
 TreeNode* createTree(Data val){
 	TreeNode* pTree = malloc(sizeof(TreeNode));
@@ -362,7 +356,6 @@ TreeNode* createTree(Data val){
 int isEmpty(TreeNode* pTree){
 	return (pTree==NULL);
 }
-
 
 int hasLeftChild(TreeNode* pTree){
 	if(isEmpty(pTree)){
@@ -390,17 +383,13 @@ int isLeaf(TreeNode* pTree){
 
 void insert(TreeNode* pTree, Data e){
 	TreeNode* tamp;
-	
 	if(isEmpty(pTree)){
-		
 		exit(4);
 	}
-	printf("%f/%f\n", e.val, e.Num);
-	puts("hehe");
 	
-	if(e.val > pTree->value.val || (e.val==pTree->value.val && e.Num > pTree->value.Num)){
-		puts("heh");
-		if (isEmpty(pTree->pright) || (e.val<pTree->pright->value.val || (e.val==pTree->pright->value.val && e.Num < pTree->pleft->value.Num))){
+	
+	if(e.val > pTree->value.val){
+		if (isEmpty(pTree->pright) || e.val<pTree->pright->value.val){
 			tamp= pTree->pright;
 			pTree->pright=createTree(e);
 			pTree->pright->pright=tamp;
@@ -410,8 +399,8 @@ void insert(TreeNode* pTree, Data e){
 	}
 	
 	
-	if(e.val < pTree->value.val || (e.val==pTree->value.val && e.Num < pTree->value.Num)){
-		if (isEmpty(pTree->pleft) || (e.val>pTree->pleft->value.val || (e.val==pTree->pleft->value.val && e.Num > pTree->pleft->value.Num))){
+	if(e.val <= pTree->value.val){
+		if (isEmpty(pTree->pleft) || e.val>=pTree->pleft->value.val){
 			tamp= pTree->pleft;
 			pTree->pleft=createTree(e);
 			pTree->pleft->pleft=tamp;
@@ -419,8 +408,10 @@ void insert(TreeNode* pTree, Data e){
 		else if(!isEmpty(pTree->pleft))
 			insert(pTree->pleft, e);
 	}
-
-    
+	else
+    {
+		pTree->value=Equal(pTree->value, e);
+    }
 }
 
 
@@ -466,7 +457,6 @@ void delLeft(TreeNode* pTree){
 }
 	
 
-	
 
 
 
@@ -542,7 +532,7 @@ void Tabsort(FILE* file, long nb, FILE* output, int mode){
 	skipline(file);
 	
 	}
-	puts("writing output");
+	puts("writing output...");
 	if(mode==1){
 		i=size-1;
 		while(i>=0){
@@ -562,7 +552,6 @@ void Tabsort(FILE* file, long nb, FILE* output, int mode){
 	
 }
 
-
 void AVLsort(FILE* file, FILE* output, int mode){
 	AVLNode* pRoot=createAVL(takeDat(file));
 	int *h;
@@ -576,26 +565,23 @@ void AVLsort(FILE* file, FILE* output, int mode){
 	skipline(file);
 	
 	}
-	puts("wrinting output...");
+	puts("writing output...");
 	if (mode==1)
 		walkthrough_finAVL(pRoot, output);
 	else
 		walkthrough_infAVL(pRoot, output);
-	puts("freeing memory...");
 
+	puts("freeing memory...");
+		
 	delLeftAVL(pRoot);
 	delRightAVL(pRoot);
 	free(pRoot);
-
-
 
 }
 
 void BSTsort(FILE* file, FILE* output, int mode){
 	TreeNode* pRoot=createTree(takeDat(file));
-	if (isEmpty(pRoot))
-		exit(4);
-
+	
 	while(getc(file) != EOF){
 	fseek(file,-1,SEEK_CUR);
 	insert(pRoot, takeDat(file));
@@ -603,19 +589,19 @@ void BSTsort(FILE* file, FILE* output, int mode){
 	skipline(file);
 	
 	}
-	puts("wrinting output...");
+	puts("writing output...");
 	if (mode==1)
 		walkthrough_fin(pRoot, output);
 	else
 		walkthrough_inf(pRoot, output);
 	puts("freeing memory...");
+	
 	delLeft(pRoot);
 	delRight(pRoot);
 	free(pRoot);
-
 }
 
-int Spe(int opt, long taille, FILE* fptr, FILE* fout, int mode)
+int Spe(int opt, long size, FILE* fptr, FILE* fout, int mode)
 {
    
 
@@ -628,7 +614,7 @@ int Spe(int opt, long taille, FILE* fptr, FILE* fout, int mode)
 			BSTsort(fptr, fout, mode);
 			break;
 		case 2:
-			Tabsort(fptr, taille, fout, mode);
+			Tabsort(fptr, size, fout, mode);
 			break;
 		default:
 			AVLsort(fptr, fout, mode);
@@ -644,7 +630,13 @@ int Spe(int opt, long taille, FILE* fptr, FILE* fout, int mode)
 
 
 
-//========================================== TP3 MODE SPECIFICS =========================================================
+
+
+
+
+
+
+//==================== Moist2 specifics=============
 
 
 Data takeDat(FILE* f){
@@ -656,7 +648,7 @@ Data takeDat(FILE* f){
 	while (i!=1 && getc(f)!=EOF){
 		fseek(f,-1,SEEK_CUR);
 
-		if(!noNum(f)){			// take station
+		if(!noNum(f)){			// take date/station
 			i=restart(f);
 		}
 		else{
@@ -664,7 +656,7 @@ Data takeDat(FILE* f){
 			i=1;
 			skip(f);
 		}
-		if(i!=2){              // take Date
+		if(i!=2){              // take moist
 			
 			if (!noNum(f)){
 				i=restart(f);
@@ -677,14 +669,16 @@ Data takeDat(FILE* f){
 			}
 			
 		}
-		if(i!=2){              // take temp
+		if(i!=2){              // take coords
 			
 			if (!noNum(f)){
 				i=restart(f);
 			}
 			else
 			{
-				fscanf(f, "%f", &res.rest[0]);
+				fscanf(f, "%f", &res.rest[1]);
+				skipcoord(f);
+				fscanf(f, "%f", &res.rest[2]);
 				i=1;
 				skip(f);
 			}
@@ -693,7 +687,7 @@ Data takeDat(FILE* f){
 
 		
 	}
-	printf("%f/%f/%f\n", res.Num, res.val, res.rest[0]);
+
 	
 	res.den=1;
 	return res;
@@ -704,15 +698,23 @@ Data takeDat(FILE* f){
 
 
 void WriteThatDown(Data x, FILE *file){
-	fprintf(file,"%f;%f;%f\n", x.val, x.Num, x.rest[0]);
+	
+	fprintf(file,"%f;%f;%f;%f;\n",x.val,x.Num,x.rest[1], x.rest[2]);
 }
 
 
-
-
-void sortTP3(int mode, long size, FILE* input, FILE* out, int reverse){
-	Spe(mode,size,input,out,reverse);
+Data Equal(Data x, Data y){
+	if (x.Num < y.Num)
+		x.Num=y.Num;
+	return x;
 }
+
+void sortM2(int mode, long size, FILE* input, FILE* out, int reverse){
+	FILE *finter = fopen("intermoist", "r");
+	Spe(mode,size,finter,out,reverse);
+	fclose(finter);
+}
+
 
 
 

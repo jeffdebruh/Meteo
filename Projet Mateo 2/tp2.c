@@ -1,6 +1,6 @@
 
 #include "tp2.h"
-
+#include "Sort.c"
 
 
 Data takeDat(FILE* f){
@@ -12,11 +12,11 @@ Data takeDat(FILE* f){
 	while (i!=1 && getc(f)!=EOF){
 		fseek(f,-1,SEEK_CUR);
 
-		if(!noNum(f)){			// take date/station
+		if(!noNum(f)){			// take date
 			i=restart(f);
 		}
 		else{
-			fscanf(f, "%li", &res.val);
+			fscanf(f, "%f", &res.val);
 			i=1;
 			skip(f);
 		}
@@ -49,7 +49,7 @@ Data takeDat(FILE* f){
 
 void WriteThatDown(Data x, FILE *file){
 	
-	fprintf(file,"%li;%f;\n", x.val, (x.Num/x.den));
+	fprintf(file,"%f;%f;\n", x.val, (x.Num/x.den));
 }
 
 
