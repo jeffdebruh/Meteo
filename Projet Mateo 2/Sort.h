@@ -2,12 +2,12 @@
 #include <stdlib.h>
 
 typedef struct dtsr{
-	float val;            // Valeur a trier
-	float Num;            //Valeur a sortir
-	int den;            //denominateur Moyenne
+	float val;            // value to sort
+	float Num;            //secondary value (average/secondary sorting)
+	int den;            //average denominator
 	
 
-	float rest[3];  //autre valeur a sortir
+	float rest[3];  //other values needed
 	
 
 }Data;
