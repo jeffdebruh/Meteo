@@ -12,7 +12,7 @@ Data takeDat(FILE* f){
 	while (i!=1 && getc(f)!=EOF){
 		fseek(f,-1,SEEK_CUR);
 
-		if(!noNum(f)){			// take date/station
+		if(!noNum(f)){			// take station
 			i=restart(f);
 		}
 		else{
@@ -74,7 +74,7 @@ Data Equal(Data x, Data y){
 }
 
 void sortM(int mode, long size, FILE* input, FILE* out, int reverse){
-	FILE *finter = fopen("intermoist", "w+");	
+	FILE *finter = fopen("intermoist", "w+");	//creating a temporary file to sort by stations and get all max moistures values
 	Spe(mode,size, input, finter,reverse);
 	fclose(finter);
 }
