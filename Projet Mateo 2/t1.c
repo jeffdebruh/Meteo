@@ -75,7 +75,7 @@ void WriteThatDown(Data x, FILE *file){
 
 
 Data Equal(Data x, Data y){
-	 x.den+=1; //prepare for the average calculation in WriteThatDown
+	 x.den+=1; //prepare for average calculation in WriteThatDown
 	 x.Num=x.Num+y.Num;
 
 	 if (x.rest[0]<y.rest[0]) //computing min and max
