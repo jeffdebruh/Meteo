@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ ! -e weather ] ; then
+#Verify if the executable exist and if not create it
+	make -f makefile
+fi
+
 if [ $# -lt 1 ] ; then
 #Verify if the script has enough arguments
 	echo "Error, missing arguments";
