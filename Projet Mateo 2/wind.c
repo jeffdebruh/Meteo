@@ -79,10 +79,10 @@ Data takeDat(FILE* f){
 
 
 void WriteThatDown(Data z, FILE *file){
-	float x= z.Num/z.den;
-	float y= z.rest[0]/z.den;
-	float e=atanf(y/x);;
-	float s=sqrtf((x*x)+(y*y));
+	float x= z.Num/z.den; //X axis average
+	float y= z.rest[0]/z.den;  //X axis average
+	float e=atanf(y/x); //wind direction
+	float s=sqrtf((x*x)+(y*y)); //wind speed
 	if (isnanf(e))
 		e=0;
 	if (isnanf(s))
@@ -93,7 +93,7 @@ void WriteThatDown(Data z, FILE *file){
 
 
 Data Equal(Data x, Data y){
-	 x.den+=1;
+	 x.den+=1; //prepare for the average calculation in WriteThatDown
 	 x.Num=x.Num+y.Num;
 	 x.rest[0]=x.rest[0]+y.rest[0];
 	return x;
