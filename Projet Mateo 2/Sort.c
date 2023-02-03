@@ -3,14 +3,14 @@
 #include "Sort.h"
 
 
-void skipline(FILE *file){
+void skipline(FILE *file){ //skip the line
 	int c;
 	while (c = fgetc(file), c != '\n' && c != EOF);
 }
 
 
 
-int noNum(FILE* f){
+int noNum(FILE* f){  //test if cursor is on separator to check if the data is missing
 	char c=getc(f);
 	fseek(f,-1,SEEK_CUR);
 	if (c==';' || c=='\n')
@@ -18,12 +18,12 @@ int noNum(FILE* f){
 	return 1;
 }
 
-int restart(FILE *f){
+int restart(FILE *f){ //skip the data line and return a failure value to the TakeDat()
 	skipline(f);
 	return 2;
 }
 
-void skipcoord(FILE *f){
+void skipcoord(FILE *f){ //get to the second coordinate value
 	char c;
 	int i=0;
 	
@@ -31,7 +31,7 @@ void skipcoord(FILE *f){
 	
 }
 
-void skip(FILE *f){
+void skip(FILE *f){ //get to the next value, limited to 10 iteration to prevent infinite loop during debug phase.
 	char c;
 	int i=0;
 	
@@ -39,13 +39,13 @@ void skip(FILE *f){
 	
 }
 
+// these 3 functions are defined in the mode files
 
+Data takeDat(FILE* file); //read the input file and create a Data structure.
 
-Data takeDat(FILE* file);
+void WriteThatDown(Data x, FILE *file); //write a Data content in output file
 
-void WriteThatDown(Data x, FILE *file);
-
-Data Equal(Data x, Data y);
+Data Equal(Data x, Data y); //is Executed when 2 sorted values are equal, used to find Minimum/Maximum values, and calculate average.
 
 
 
@@ -59,7 +59,7 @@ Data Equal(Data x, Data y);
 
 
 
-void put(Data tab[], long t, Data a, long* size){
+void put(Data tab[], long t, Data a, long* size){ //put the value in tab
 	for(int i=*size; i>=t;i--)
 		tab[i+1]=tab[i];
 	
@@ -70,7 +70,7 @@ void put(Data tab[], long t, Data a, long* size){
 }
 	
 
-Data* putInTabRec(Data phead[], Data a, long start, long end, long* size){
+Data* putInTabRec(Data phead[], Data a, long start, long end, long* size){ //search for the right position to insert the value in tab
 		long mid=(start+end)/2;
 		if(phead[start].val>a.val){
 			put(phead, start, a, size);
@@ -593,7 +593,7 @@ void BSTsort(FILE* file, FILE* output, int mode){
 	free(pRoot);
 }
 
-int Spe(int opt, long size, FILE* fptr, FILE* fout, int mode)
+int Spe(int opt, long size, FILE* fptr, FILE* fout, int mode) //choose which sort to use.
 {
    
 
