@@ -93,7 +93,7 @@ void WriteThatDown(Data z, FILE *file){
 
 
 Data Equal(Data x, Data y){
-	 x.den+=1; //prepare for the average calculation in WriteThatDown
+	 x.den+=1; //prepare for average calculation in WriteThatDown
 	 x.Num=x.Num+y.Num;
 	 x.rest[0]=x.rest[0]+y.rest[0];
 	return x;
