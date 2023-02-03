@@ -41,6 +41,7 @@ for i in $(seq 1 "$#"); do
 		else
 			echo "Multiple use of an argument";
 			exit 30
+		fi
 		'-F') if [ $tmp -eq 0 ]; then
 			tmp=2;
 		else
