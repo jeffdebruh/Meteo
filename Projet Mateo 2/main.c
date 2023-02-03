@@ -166,7 +166,8 @@ int main(int argc, char** argv) {
 			break;
 		case 6:
 			puts("t3");
-			sortTP3(sort,5000*8*70,fptr,fout,reverse);
+			puts("Code in WIP, sorry :[");
+			exit(4);
 			break;
 		case 7:
 			puts("p1");
@@ -178,7 +179,8 @@ int main(int argc, char** argv) {
 			break;
 		case 9:
 			puts("p3");
-			sortTP3(sort,5000*8*70,fptr,fout,reverse);
+			puts("Code in WIP, sorry :[");
+			exit(4);
 			break;
 	}
 
