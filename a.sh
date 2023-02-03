@@ -214,12 +214,13 @@ fi
 add () {
 cp $1 tmp.txt
 awk '{print $0";"}' tmp.txt > $1
+rm tmp.txt
 }
 
 i=0;
 for i in $(seq 1 "$#"); do
   case "${!i}" in 
-    '-h') cat meteo3.csv | head -n50 | cut -d ';' -f1,14 > height.txt
+    '-h') cat meteo3.csv | head -n50 | cut -d ';' -f1,10,14 > height.txt
 	sed 1d height.txt -i
 	add height.txt
       ;;
