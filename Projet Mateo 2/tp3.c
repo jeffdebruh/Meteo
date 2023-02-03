@@ -4,12 +4,12 @@
 
 
 typedef struct dt{
-	long val;            // Valeur a trier
-	float Num;            //Valeur a sortir
-	int den;            //denominateur Moyenne
+	long val;            
+	float Num;            
+	int den;            
 	
 
-	float rest[5];  //autre valeur a sortir
+	float rest[5];  
 	
 
 }Data;
