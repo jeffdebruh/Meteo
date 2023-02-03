@@ -61,4 +61,4 @@
 
 #define Spe Spem2
 
-void sortM(int mode, long size, FILE* input, FILE* out, int reverse);
+void sortM2(int mode, long size, FILE* input, FILE* out, int reverse);
