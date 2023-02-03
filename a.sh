@@ -162,18 +162,18 @@ fi
 
 dateconvert () {
 	if [ $# -eq 1 ] ; then 
-		a=$(echo $1 | cut -c 1-10 | sed 's/-//g')
-		if [[ ! $a =~ [0-9]+ ]]; then 
+		a=$(echo $1 | cut -c 1-10 | sed 's/-//g' )
+		if [[ $a =~ [0-9]+ ]]; then 
 			if [ ! $a -ge 20100101 ] || [ ! $a -le 20300101 ] ; then 
 				exit 25
 			fi
 			echo $a
-			return 0
+			return 2
 		else 
 			exit 26
 		fi
 		else
-			echo 0
+			echo n
 	fi
 }
 
@@ -182,14 +182,13 @@ cat $1 | head -n50 | cut -d ';' -f2 > date.txt
 	sed 1d date.txt -i
 	date="date.txt"
 	i=2
-	min=`dateconvert $min`
-	max=`dateconvert $max`
-	echo $min
-	echo $max
-	exit 40
+	min1=`dateconvert $min`
+	max1=`dateconvert $max`
+	echo $min1
+	echo $max1
 		while read line; do
 			f=`dateconvert $line`
-			if [ $f -ge $min ] && [ $f -le $max ] ; then
+			if [ $f -ge $min1 ] && [ $f -le $max1 ] ; then
 				sed -n ''$i'p' $1 >> $2
 			fi
 		i=$(($i+1))
