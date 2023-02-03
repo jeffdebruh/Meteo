@@ -71,7 +71,7 @@ Data Equal(Data x, Data y){
 	 x.den+=1;
 	 x.Num=x.Num+y.Num;
 
-	 if (x.rest[0]<y.rest[0])
+	 if (x.rest[0]<y.rest[0]) //computing max and min
 		x.rest[0]=y.rest[0];
 	 if (x.rest[1]>y.rest[1])
 		x.rest[1]=y.rest[1];
