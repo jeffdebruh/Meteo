@@ -2,17 +2,19 @@
 
 
 typedef struct dtsr{
-	float val;            // Valeur a trier
-	float Num;            //Valeur a sortir
-	int den;            //denominateur Moyenne
+	float val;            
+	float Num;            
+	int den;            
 	
 
-	float rest[3];  //autre valeur a sortir
+	float rest[3];  
 	
 
 }Data;
 
 
+//Data Explained in Sort.h
+//Functions Explained in Sort.c, only changes are 'greater than' comparator becoming 'Equal or greater than' in sorting fonctions: 'insert' 'insertAVL' and 'putInTabRec'
 
 
 
@@ -703,14 +705,14 @@ void WriteThatDown(Data x, FILE *file){
 }
 
 
-Data Equal(Data x, Data y){
+Data Equal(Data x, Data y){ //theorically not used here but still written to prevent Segmentation faults or Compilations fails
 	if (x.Num < y.Num)
 		x.Num=y.Num;
 	return x;
 }
 
 void sortM2(int mode, long size, FILE* input, FILE* out, int reverse){
-	FILE *finter = fopen("intermoist", "r");
+	FILE *finter = fopen("intermoist", "r"); //intermoist is a temporary file created in 'moist.c'
 	Spe(mode,size,finter,out,reverse);
 	fclose(finter);
 }
