@@ -142,7 +142,7 @@ int main(int argc, char** argv) {
 	switch(mode) {
 		case 1:
 			puts("height");
-			sortH(sort, 70, fptr,fout,reverse);
+			sortH(sort, 70*1000, fptr,fout,reverse);
 
 			break;
 		case 2:
