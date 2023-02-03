@@ -16,8 +16,8 @@ for i in $(seq 1 "$#"); do
 	fi
 	if [ ! $c -le 0 ] ; then
 		case $c in
-			'1') min="${!i}";c=2;;
-			'2') max="${!i}";c=-1;;
+			'1') min="${!i}";c=2;echo $min;;
+			'2') max="${!i}";c=-1;echo $max ;;
 			*) exit 24 ;;
 		esac 
 	fi
@@ -162,18 +162,18 @@ fi
 
 dateconvert () {
 	if [ $# -eq 1 ] ; then 
-		a=$(echo $1 | cut -c 1-10 | sed 's/-//g' )
-		if [[ $a =~ [0-9]+ ]]; then 
+		a=$(echo $1 | cut -c 1-10 | sed 's/-//g')
+		if [[ ! $a =~ [0-9]+ ]]; then 
 			if [ ! $a -ge 20100101 ] || [ ! $a -le 20300101 ] ; then 
 				exit 25
 			fi
 			echo $a
-			return 2
+			return 0
 		else 
 			exit 26
 		fi
 		else
-			echo n
+			echo 0
 	fi
 }
 
@@ -211,36 +211,49 @@ else
 	fi
 fi
 
+add () {
+cp $1 tmp.txt
+awk '{print $0";"}' tmp.txt > $1
+}
 
 i=0;
 for i in $(seq 1 "$#"); do
   case "${!i}" in 
-    '-h') echo "h" > height.txt;
-	 	cat meteo3.csv | head -n50 | cut -d ';' -f1,10,14 >> height.txt
+    '-h') cat meteo3.csv | head -n50 | cut -d ';' -f1,14 > height.txt
+	sed 1d height.txt -i
+	add height.txt
       ;;
-    '-t1') echo "t1" > temp1.txt
-		cat meteo3.csv | head -n50 | cut -d ';' -f1,11,12,13 >> temp1.txt
+    '-t1')cat meteo3.csv | head -n50 | cut -d ';' -f1,11,12,13 > temp1.txt
+	sed 1d temp1.txt -i
+	add temp1.txt
       ;;
-    '-t2') echo "t2" > temp2.txt
-		cat meteo3.csv | head -n50 | cut -d ';' -f1,2,11 >> temp2.txt
+    '-t2')cat meteo3.csv | head -n50 | tr -d '-'|tr 'T' ';' | cut -d ';' -f1,2,12 > temp2.txt
+	sed 1d temp2.txt -i
+	add temp2.txt
       ;;
-    '-t3') echo "t3" > temp3.txt
-		cat meteo3.csv | head -n50 | cut -d ';' -f1,2,11 >> temp3.txt
+    '-t3')cat meteo3.csv | head -n50 | tr -d '-'|tr 'T' ';' | cut -d ';' -f1,2,12 > temp3.txt
+	sed 1d temp3.txt -i
+	add temp3.txt
       ;;
-    '-p1') echo "p1" > pressure1.txt
-	 	cat meteo3.csv | head -n50 | cut -d ';' -f1,2,7,8 >> pressure1.txt
+    '-p1')cat meteo3.csv | head -n50 | cut -d ';' -f1,2,7,8 > pressure1.txt
+	sed 1d pressure1.txt -i
+	add pressure1.txt
     ;;
-    '-p2') echo "p2" > pressure2.txt
-		cat meteo3.csv | head -n50 | cut -d ';' -f1,2,7,8 >> pressure2.txt
+    '-p2')cat meteo3.csv | head -n50 | tr -d '-'|tr 'T' ';' | cut -d ';' -f1,2,9,8 > pressure2.txt
+	sed 1d pressure2.txt -i
+	add pressure2.txt
     ;;
-    '-p3') echo "p3" > pressure3.txt
-		cat meteo3.csv | head -n50 | cut -d ';' -f1,2,7,8 >> pressure3.txt
+    '-p3')cat meteo3.csv | head -n50 | tr -d '-'|tr 'T' ';' | cut -d ';' -f1,2,9,8 > pressure3.txt
+	sed 1d pressure3.txt -i
+	add pressure3.txt
     ;;
-    '-w') echo "w" > wind.txt
-		cat meteo3.csv | head -n50 | cut -d ';' -f1,4,5,10 >> wind.txt
+    '-w')cat meteo3.csv | head -n50 | cut -d ';' -f1,4,5,10 > wind.txt
+	sed 1d wind.txt -i
+	add wind.txt
     ;;
-    '-m') echo "m" > moisture.txt
-		cat meteo3.csv | head -n50 | cut -d ';' -f1,6,10 >> moisture.txt
+    '-m')cat meteo3.csv | head -n50 | cut -d ';' -f1,6,10 > moisture.txt
+	sed 1d moisture.txt -i
+	add moisture.txt
     ;;
     *);;
   esac
