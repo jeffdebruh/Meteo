@@ -12,8 +12,8 @@ typedef struct dtsr{
 
 }Data;
 
-
-//Functions Explained in Sort.c only changes are 'greater than' comparator becoming 'Equal or greater than' in sorting fonctions: 'insert' 'insertAVL' and 'putInTabRec'
+//Data Explained in Sort.h
+//Functions Explained in Sort.c, only changes are 'greater than' comparator becoming 'Equal or greater than' in sorting fonctions: 'insert' 'insertAVL' and 'putInTabRec'
 
 
 
