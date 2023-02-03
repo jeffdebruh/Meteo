@@ -164,7 +164,7 @@ done;
 if [ ! $tmp -eq 0 ] ; then
 #It will verify the localisation with real life coordinates
 	sed -n '1p' $a > meteo2.csv
-	cat $a | head -n1000 | cut -d ';' -f10 > coo.txt
+	cat $a | cut -d ';' -f10 > coo.txt
 	sed 1d coo.txt -i
 	coo="coo.txt"
 	i=2
@@ -216,7 +216,7 @@ dateconvert () {
 
 sortdate () {
 #Verify that the dates are inbetween the minimum and maximum ones that were input by the user
-cat $1 | head -n50 | cut -d ';' -f2 > date.txt
+cat $1 | cut -d ';' -f2 > date.txt
 	sed 1d date.txt -i
 	date="date.txt"
 	i=2
@@ -258,7 +258,7 @@ i=0;
 for i in $(seq 1 "$#"); do
 #This loop will launch every Gnuplot command, one by one
   case "${!i}" in 
-    '-h') cat meteo3.csv | head -n50 | cut -d ';' -f1,10,14 > height.txt
+    '-h') cat meteo3.csv | cut -d ';' -f1,10,14 > height.txt
 	sed 1d height.txt -i
 	addsc height.txt
 	if [ $r -eq 0 ] ; then
@@ -273,7 +273,7 @@ for i in $(seq 1 "$#"); do
 		rm data.txt
 	fi
       ;;
-    '-t1')cat meteo3.csv | head -n50 | cut -d ';' -f1,11,12,13 > temp1.txt
+    '-t1')cat meteo3.csv | cut -d ';' -f1,11,12,13 > temp1.txt
 	sed 1d temp1.txt -i
 	addsc temp1.txt
 	if [ $r -eq 0 ] ; then
@@ -288,7 +288,7 @@ for i in $(seq 1 "$#"); do
 		rm data.txt
 	fi
       ;;
-    '-t2')cat meteo3.csv | head -n50 | tr -d '-'|tr 'T' ';' | cut -d ';' -f2,14 > temp2.txt
+    '-t2')cat meteo3.csv | tr -d '-'|tr 'T' ';' | cut -d ';' -f2,14 > temp2.txt
 	sed 1d temp2.txt -i
 	addsc temp2.txt
 	if [ $r -eq 0 ] ; then
@@ -303,7 +303,7 @@ for i in $(seq 1 "$#"); do
 		rm data.txt
 	fi
       ;;
-    '-t3')cat meteo3.csv | head -n50 | tr -d '-'|tr 'T' ';' | cut -d ';' -f1,2,14 > temp3.txt
+    '-t3')cat meteo3.csv | tr -d '-'|tr 'T' ';' | cut -d ';' -f1,2,14 > temp3.txt
 	sed 1d temp3.txt -i
 	addsc temp3.txt
 	if [ $r -eq 0 ] ; then
@@ -318,7 +318,7 @@ for i in $(seq 1 "$#"); do
 		rm data.txt
 	fi
       ;;
-    '-p1')cat meteo3.csv | head -n50 | cut -d ';' -f1,2,7,8 > pressure1.txt
+    '-p1')cat meteo3.csv | cut -d ';' -f1,2,7,8 > pressure1.txt
 	sed 1d pressure1.txt -i
 	addsc pressure1.txt
 	if [ $r -eq 0 ] ; then
@@ -333,7 +333,7 @@ for i in $(seq 1 "$#"); do
 		rm data.txt
 	fi
     ;;
-    '-p2')cat meteo3.csv | head -n50 | tr -d '-'|tr 'T' ';' | cut -d ';' -f1,2,9,8 > pressure2.txt
+    '-p2')cat meteo3.csv | tr -d '-'|tr 'T' ';' | cut -d ';' -f1,2,9,8 > pressure2.txt
 	sed 1d pressure2.txt -i
 	addsc pressure2.txt
 	if [ $r -eq 0 ] ;then 
@@ -348,7 +348,7 @@ for i in $(seq 1 "$#"); do
 		rm data.txt
 	fi
     ;;
-    '-p3')cat meteo3.csv | head -n50 | tr -d '-'|tr 'T' ';' | cut -d ';' -f1,2,9,8 > pressure3.txt
+    '-p3')cat meteo3.csv | tr -d '-'|tr 'T' ';' | cut -d ';' -f1,2,9,8 > pressure3.txt
 	sed 1d pressure3.txt -i
 	addsc pressure3.txt
 	if [ $r -eq 0 ] ;then 
@@ -363,7 +363,7 @@ for i in $(seq 1 "$#"); do
 		rm data.txt
 	fi
 	;;
-    '-w')cat meteo3.csv | head -n50 | cut -d ';' -f1,4,5,10 > wind.txt
+    '-w')cat meteo3.csv | cut -d ';' -f1,4,5,10 > wind.txt
 	sed 1d wind.txt -i
 	addsc wind.txt
 	if [ $r -eq 0 ] ;then 
@@ -378,7 +378,7 @@ for i in $(seq 1 "$#"); do
 		rm data.txt
 	fi
     ;;
-    '-m')cat meteo3.csv | head -n50 | cut -d ';' -f1,6,10 > moisture.txt
+    '-m')cat meteo3.csv cut -d ';' -f1,6,10 > moisture.txt
 	sed 1d moisture.txt -i
 	addsc moisture.txt
 	if [ $r -eq 0 ] ;then 
