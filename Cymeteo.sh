@@ -165,7 +165,7 @@ done;
 if [ ! $tmp -eq 0 ] ; then
 #It will verify the localisation with real life coordinates
 	sed -n '1p' $a > meteo2.csv
-	cat $a | cut -d ';' -f10 > coo.txt
+	cat $a | head -n1000 | cut -d ';' -f10 > coo.txt
 	sed 1d coo.txt -i
 	coo="coo.txt"
 	i=2
@@ -217,7 +217,7 @@ dateconvert () {
 
 sortdate () {
 #Verify that the dates are inbetween the minimum and maximum ones that were input by the user
-cat $1 | cut -d ';' -f2 > date.txt
+cat $1 | head -n1000 | cut -d ';' -f2 > date.txt
 	sed 1d date.txt -i
 	date="date.txt"
 	i=2
@@ -262,138 +262,75 @@ for i in $(seq 1 "$#"); do
     '-h') cat meteo3.csv | cut -d ';' -f1,10,14 > height.txt
 	sed 1d height.txt -i
 	addsc height.txt
-	if [ $r -eq 0 ] ; then
-		./weather -fheight.txt -odata.txt -h
-		rm height.txt
-		gnuplot -persist h.plt
-		rm data.txt
-	else
 		./weather -fheight.txt -odata.txt -h -r
 		rm height.txt
 		gnuplot -persist h.plt
 		rm data.txt
-	fi
       ;;
     '-t1')cat meteo3.csv | cut -d ';' -f1,11,12,13 > temp1.txt
 	sed 1d temp1.txt -i
 	addsc temp1.txt
-	if [ $r -eq 0 ] ; then
 		./weather -ftemp1.txt -odata.txt -t1 
 		rm temp1.txt
 		gnuplot -persist t1.plt
 		rm data.txt
-	else
-		./weather -ftemp1.txt -odata.txt -t1 -r
-		rm temp1.txt
-		gnuplot -persist t1.plt
-		rm data.txt
-	fi
       ;;
     '-t2')cat meteo3.csv | tr -d '-'|tr 'T' ';' | cut -d ';' -f2,14 > temp2.txt
 	sed 1d temp2.txt -i
 	addsc temp2.txt
-	if [ $r -eq 0 ] ; then
 		./weather -ftemp2.txt -odata.txt -t2
 		rm temp2.txt
 		gnuplot -persist t2.plt
 		rm data.txt
-	else
-		./weather -ftemp2.txt -odata.txt -t2 -r
-		rm temp2.txt
-		gnuplot -persist t2.plt
-		rm data.txt
-	fi
       ;;
     '-t3')cat meteo3.csv | tr -d '-'|tr 'T' ';' | cut -d ';' -f1,2,14 > temp3.txt
 	sed 1d temp3.txt -i
 	addsc temp3.txt
-	if [ $r -eq 0 ] ; then
 		./weather -ftemp2.txt -odata.txt -t3
 		rm temp3.txt
 		gnuplot -persist t3.plt
 		rm data.txt
-	else
-		./weather -ftemp2.txt -odata.txt -t3 -r
-		rm temp3.txt
-		gnuplot -persist t3.plt
-		rm data.txt
-	fi
       ;;
-    '-p1')cat meteo3.csv | cut -d ';' -f1,2,7,8 > pressure1.txt
+    '-p1')cat meteo3.csv |cut -d ';' -f1,2,7,8 > pressure1.txt
 	sed 1d pressure1.txt -i
 	addsc pressure1.txt
-	if [ $r -eq 0 ] ; then
 		./weather -fpressure1.txt -odata.txt -p1
 		rm pressure1.txt
 		gnuplot -persist p1.plt
 		rm data.txt
-	else
-		./weather -fpressure1.txt -odata.txt -p1 -r
-		rm pressure1.txt
-		gnuplot -persist p1.plt
-		rm data.txt
-	fi
     ;;
-    '-p2')cat meteo3.csv | tr -d '-'|tr 'T' ';' | cut -d ';' -f1,2,9,8 > pressure2.txt
+    '-p2')cat meteo3.csv |tr -d '-'|tr 'T' ';' | cut -d ';' -f1,2,9,8 > pressure2.txt
 	sed 1d pressure2.txt -i
 	addsc pressure2.txt
-	if [ $r -eq 0 ] ;then 
 		./weather -fpressure2.txt -odata.txt -p2
 		rm pressure2.txt
 		gnuplot -persist p2.plt
 		rm data.txt
-	else
-		./weather -fpressure2.txt -odata.txt -p2 -r
-		rm pressure2.txt
-		gnuplot -persist p2.plt
-		rm data.txt
-	fi
     ;;
-    '-p3')cat meteo3.csv | tr -d '-'|tr 'T' ';' | cut -d ';' -f1,2,9,8 > pressure3.txt
+    '-p3')cat meteo3.csv |tr -d '-'|tr 'T' ';' | cut -d ';' -f1,2,9,8 > pressure3.txt
 	sed 1d pressure3.txt -i
-	addsc pressure3.txt
-	if [ $r -eq 0 ] ;then 
+	addsc pressure3.txt 
 		./weather -fpressure2.txt -odata.txt -p2
 		rm pressure2.txt
 		gnuplot -persist p2.plt
 		rm data.txt
-	else
-		./weather -fpressure2.txt -odata.txt -p2 -r
-		rm pressure2.txt
-		gnuplot -persist p2.plt
-		rm data.txt
-	fi
 	;;
-    '-w')cat meteo3.csv | cut -d ';' -f1,4,5,10 > wind.txt
+    '-w')cat meteo3.csv |cut -d ';' -f1,4,5,10 > wind.txt
 	sed 1d wind.txt -i
 	addsc wind.txt
-	if [ $r -eq 0 ] ;then 
 		./weather -fwind.txt -odata.txt -w
 		rm wind.txt
 		gnuplot -persist w.plt
 		rm data.txt
-	else
-	./weather -fwind.txt -odata.txt -w -r
-		rm w.txt
-		gnuplot -persist w.plt
-		rm data.txt
-	fi
     ;;
-    '-m')cat meteo3.csv cut -d ';' -f1,6,10 > moisture.txt
+    '-m')cat meteo3.csv | cut -d ';' -f1,6,10 > moisture.txt
 	sed 1d moisture.txt -i
 	addsc moisture.txt
-	if [ $r -eq 0 ] ;then 
-		./weather -fmoisture.txt -odata.txt -m
-		rm moisture.txt
-		gnuplot -persist p2.plt
-		rm data.txt
-	else
 		./weather -fmoisture.txt -odata.txt -m -r
 		rm moisture.txt
 		gnuplot -persist m.plt
 		rm data.txt
-	fi
-	rm intermoist
+		rm intermoist
     ;;
     *);;
   esac
