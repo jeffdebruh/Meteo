@@ -14,7 +14,9 @@ typedef struct dt{
 
 }Data;
 
-
+//THIS FILE IS NO LONGER USED in the program due to technicial difficulties
+//Data Explained in Sort.h
+//Functions Explained in Sort.c, only changes are 'greater than' comparator becoming 'Equal or greater than' in sorting fonctions: 'insert' 'insertAVL' and 'putInTabRec'
 
 
 void skipline(FILE *file){
